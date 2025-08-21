@@ -1,12 +1,24 @@
-import api from "../api"
+import api from "../api";
 
+export const csrf = () => api.get("/sanctum/csrf-cookie");
 
-//conexion 
+export const login = async (email: string, password: string) => {
+  await csrf();
+  return api.post("/login", { email, password });
+};
 
-export const login = async (email , password) => {
+export const logout = () => api.post("/logout");
 
-    const response = await  api.post("/login", {email, password});
-}
+export const register = async (data: {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}) => {
+  await csrf();
+  return api.post("/register", data);
+};
 
+export const user = () => api.get("/user");
 
 
